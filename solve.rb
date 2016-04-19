@@ -8,6 +8,8 @@ end
 
 puts parts.inspect
 
+length = parts.values.inject(0, :+)
+
 variants = {}
 parts.each do |word, letters|
   chars = word.split('')
@@ -19,3 +21,14 @@ end
 
 puts variants.inspect
 
+dictionary = IO.readlines("words#{length}.txt").map do |line|
+  line.gsub(/[\n]/, '')
+end
+
+matches = []
+variants.values.first.product(*variants.values[1..-1]).each do |variant|
+  variant = variant.join
+  matches << variant if dictionary.include?(variant)
+end
+
+puts matches.inspect
